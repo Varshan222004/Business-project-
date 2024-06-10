@@ -1,0 +1,221 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Bank_Customer_Churn_Model.ipynb",
+      "provenance": [],
+      "authorship_tag": "ABX9TyPZl4d0nA5Qmq8X1mDqSb1O"
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "dqZ-nhxiganh"
+      },
+      "source": [
+        "# Bank Customer Churn Model"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Xns_rCdhh-vZ"
+      },
+      "source": [
+        "## Objective",
+        "To develop a machine learning model that predicts customer churn (attrition) for a bank based on customer data."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Data Source",
+        "The dataset contains information about bank customers, including their demographics, account information, transaction history, etc. It also includes a target variable indicating whether the customer churned or not."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Import Library",
+        "```python",
+        "import pandas as pd",
+        "import numpy as np",
+        "import matplotlib.pyplot as plt",
+        "import seaborn as sns",
+        "from sklearn.model_selection import train_test_split",
+        "from sklearn.preprocessing import StandardScaler",
+        "from sklearn.linear_model import LogisticRegression",
+        "from sklearn.metrics import accuracy_score, confusion_matrix, classification_report",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Import Data",
+        "```python",
+        "# Load the dataset",
+        "data = pd.read_csv('bank_customer_churn.csv')",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Describe Data",
+        "```python",
+        "# Display the first few rows of the dataset",
+        "data.head()",
+        "# Check for missing values",
+        "data.isnull().sum()",
+        "# Check data types",
+        "data.dtypes",
+        "# Check summary statistics",
+        "data.describe()",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Data Visualization",
+        "```python",
+        "# Visualize the distribution of the target variable (churn)",
+        "sns.countplot(data['Churn'])",
+        "plt.title('Distribution of Churn')",
+        "plt.show()",
+        "# Visualize the correlation matrix",
+        "plt.figure(figsize=(12, 8))",
+        "sns.heatmap(data.corr(), annot=True, cmap='coolwarm')",
+        "plt.title('Correlation Matrix')",
+        "plt.show()",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Data Preprocessing",
+        "```python",
+        "# Convert categorical variables into dummy variables",
+        "data = pd.get_dummies(data, drop_first=True)",
+        "# Split data into features and target variable",
+        "X = data.drop('Churn_Yes', axis=1)",
+        "y = data['Churn_Yes']",
+        "# Split data into training and testing sets",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)",
+        "# Standardize feature data",
+        "scaler = StandardScaler()",
+        "X_train_scaled = scaler.fit_transform(X_train)",
+        "X_test_scaled = scaler.transform(X_test)",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Define Target Variable (y) and Feature Variables (X)",
+        "```python",
+        "# Already done in Data Preprocessing",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Train Test Split",
+        "```python",
+        "# Already done in Data Preprocessing",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Modeling",
+        "```python",
+        "# Train a logistic regression model",
+        "log_reg = LogisticRegression()",
+        "log_reg.fit(X_train_scaled, y_train)",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Model Evaluation",
+        "```python",
+        "# Evaluate the model on the test set",
+        "y_pred = log_reg.predict(X_test_scaled)",
+        "# Print accuracy score",
+        "print('Accuracy:', accuracy_score(y_test, y_pred))",
+        "# Print confusion matrix",
+        "print('Confusion Matrix:\\n', confusion_matrix(y_test, y_pred))",
+        "# Print classification report",
+        "print('Classification Report:\\n', classification_report(y_test, y_pred))",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Prediction",
+        "```python",
+        "# Make predictions on new data if needed",
+        "# For example:",
+        "# new_data = ...",
+        "# new_data_scaled = scaler.transform(new_data)",
+        "# predicted_churn = log_reg.predict(new_data_scaled)",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-Vbnt9CciKJP"
+      },
+      "source": [
+        "## Explanation",
+        "This project
